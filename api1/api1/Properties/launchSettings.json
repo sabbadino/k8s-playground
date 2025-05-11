@@ -26,7 +26,8 @@
       },
       "publishAllPorts": false,
       "useSSL": true,
-      "httpPort": 32772
+      "httpPort": 32772,
+      "containerName": ""
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"
