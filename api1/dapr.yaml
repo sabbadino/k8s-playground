@@ -1,0 +1,15 @@
+apps:
+- appDirPath: apidapr2
+  appID: apidapr2
+  appPort: 5096
+  command:
+  - dotnet
+  - run
+- appDirPath: apidapr1
+  appID: apidapr1
+  appPort: 5225
+  command:
+  - dotnet
+  - run
+
+version: 1

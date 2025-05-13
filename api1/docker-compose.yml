@@ -1,0 +1,66 @@
+services:
+  apidapr2:
+    image: ${DOCKER_REGISTRY-}apidapr2
+    build:
+      context: .
+      dockerfile: apidapr2/Dockerfile
+    networks:
+      - dapr-network
+
+  apidapr2-dapr:
+    image: "daprio/daprd:edge"
+    command: ["./daprd",
+     "-app-id", "apidapr2",
+     "-app-port", "8080",
+     "-placement-host-address", "placement:50006",
+     "-dapr-grpc-port", "50002",
+     "-components-path", "/components"]
+    volumes:
+        - "./components/:/components"
+    depends_on:
+      - apidapr2
+    network_mode: "service:apidapr2"
+
+  apidapr1:
+    image: ${DOCKER_REGISTRY-}apidapr1
+    build:
+      context: .
+      dockerfile: apidapr1/Dockerfile
+    networks:
+      - dapr-network
+
+  apidapr1-dapr:
+    image: "daprio/daprd:edge"
+    command: ["./daprd",
+     "-app-id", "apidapr1",
+     "-app-port", "8083",
+     "-placement-host-address", "placement:50006",
+     "-dapr-grpc-port", "50002",
+     "-components-path", "/components"]
+    volumes:
+        - "./components/:/components"
+    depends_on:
+      - apidapr1
+    network_mode: "service:apidapr1"
+
+ ############################
+  # Dapr placement service
+  ############################
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - dapr-network
+  ############################
+  # Redis state store
+  ############################
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6380:6379"
+    networks:
+      - dapr-network
+networks:
+    dapr-network:

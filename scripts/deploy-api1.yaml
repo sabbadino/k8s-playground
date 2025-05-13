@@ -54,7 +54,7 @@ metadata:
   annotations:
      nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx # required , since the version i installed does not set ngninx as default ingress calls name 
   rules:
   - host: kubernetes.docker.internal
     http:
