@@ -24,6 +24,8 @@ helm upgrade --install  ingress-nginx ingress-nginx/ingress-nginx  --namespace i
 
 https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.2/deploy/static/provider/cloud/deploy.yaml
 
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+
  ---------------
  
   # return cluster service accounts 
@@ -31,4 +33,7 @@ https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.2/de
  
  #deploy api
 $ kubectl apply -f deploy-api1.yaml
+
+http://kubernetes.docker.internal/api1/WeatherForecast
+
 
