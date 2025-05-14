@@ -1,4 +1,27 @@
 services:
+
+  zipkin:
+    image: "openzipkin/zipkin"
+    ports:
+      - "9412:9411"
+    networks:
+      - dapr-network
+
+  dapr-dashboard:
+    image: "daprio/dashboard:latest"
+    command: [ "--docker-compose=true", 
+      "--components-path=/home/nonroot/components", 
+      "--config-path=/home/nonroot/configuration", 
+      "--docker-compose-path=/home/nonroot/docker-compose.yml" ]
+    ports:
+      - "8090:8080"
+    volumes:
+      - "./components/:/home/nonroot/components"
+      - "./configuration/:/home/nonroot/configuration"
+      - ./docker-compose.yml:/home/nonroot/docker-compose.yml
+    networks:
+      - my-network
+
   apidapr2:
     image: ${DOCKER_REGISTRY-}apidapr2
     build:
@@ -17,6 +40,7 @@ services:
      "-components-path", "/components"]
     volumes:
         - "./components/:/components"
+        - "./configuration/:/configuration"
     depends_on:
       - apidapr2
     network_mode: "service:apidapr2"
@@ -39,6 +63,7 @@ services:
      "-components-path", "/components"]
     volumes:
         - "./components/:/components"
+        - "./configuration/:/configuration"
     depends_on:
       - apidapr1
     network_mode: "service:apidapr1"
