@@ -20,7 +20,7 @@ services:
       - "./configuration/:/home/nonroot/configuration"
       - ./docker-compose.yml:/home/nonroot/docker-compose.yml
     networks:
-      - my-network
+      - dapr-network
 
   apidapr2:
     image: ${DOCKER_REGISTRY-}apidapr2
@@ -35,9 +35,11 @@ services:
     command: ["./daprd",
      "-app-id", "apidapr2",
      "-app-port", "8080",
+     "--log-level=debug",
      "-placement-host-address", "placement:50006",
      "-dapr-grpc-port", "50002",
-     "-components-path", "/components"]
+      "--config=/configuration/config.yml", 
+     "--components-path", "/components"]
     volumes:
         - "./components/:/components"
         - "./configuration/:/configuration"
@@ -58,9 +60,11 @@ services:
     command: ["./daprd",
      "-app-id", "apidapr1",
      "-app-port", "8083",
+     "--log-level=debug",
      "-placement-host-address", "placement:50006",
      "-dapr-grpc-port", "50002",
-     "-components-path", "/components"]
+     "--config=/configuration/config.yml", 
+     "--components-path", "/components"]
     volumes:
         - "./components/:/components"
         - "./configuration/:/configuration"
