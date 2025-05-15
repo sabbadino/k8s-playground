@@ -22,6 +22,16 @@ namespace apidapr1.Controllers
         [HttpGet(template:"get-weather", Name = "GetWeatherForecast")]
         public async Task<string> Get([FromServices] DaprClient daprClient)
         {
+            //try
+            //{
+            //    var c = new HttpClient();
+            //    var xx = await c.GetAsync("http://zipkin:9411/api/v2/spans");
+            //    var ff = xx.StatusCode;
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, "Error in GetWeatherForecast");
+            //}   
             var hn = Environment.MachineName;   
             var client = DaprClient.CreateInvokeHttpClient(appId: "apidapr2");
             //var client = daprClient.CreateInvokableHttpClient();   
